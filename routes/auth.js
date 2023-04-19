@@ -73,7 +73,9 @@ router.post('/signup',(req,res)=>{
     console.log(err)
    })
 })
-
+router.get('/test',(req,res)=>{
+    res.send('now running');
+})
 router.post('/signin',(req,res)=>{
     const {email,password} = req.body
     if(!email || !password){
