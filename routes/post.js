@@ -3,6 +3,12 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const requireLogin  = require('../middleware/requireLogin')
 const Post =  mongoose.model("Post")
+const serverless = require('serverless-http');
+
+//delete if no work
+const app = express();
+
+//till here
 
 router.get('/allpost',requireLogin,(req,res)=>{
     Post.find()
@@ -155,4 +161,6 @@ router.delete('/deletePost/:postId',requireLogin,(req,res)=>{
     })
 })
 
-module.exports= router
+app.use('/.netlify/functions/api',router);
+
+module.exports.handler = serverless(app);

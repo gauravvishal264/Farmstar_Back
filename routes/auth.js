@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {JWT_SECRET} = require('../config/keys')
 const requireLogin = require('../middleware/requireLogin')
+const serverless = require('serverless-http');
 /*const nodemailer=require('nodemailer')
 const sendgridTransport=require('nodemailer-sendgrid-transport')
 */
@@ -26,6 +27,11 @@ const transporter=nodemailer.createTransport(sendgridTransport({
     res.send("hello user")
 })
 */
+
+//delete if no work
+const app = express();
+
+//till here
 router.post('/signup',(req,res)=>{
     const {name,email,password,pic}=req.body
     if(!email||!password||!name){
@@ -98,4 +104,6 @@ router.post('/signin',(req,res)=>{
 
 
 
-module.exports=router
+app.use('/.netlify/functions/api',router);
+
+module.exports.handler = serverless(app);

@@ -4,6 +4,12 @@ const mongoose = require('mongoose')
 const requireLogin  = require('../middleware/requireLogin')
 const Post =  mongoose.model("Post")
 const User =  mongoose.model("User")
+const serverless = require('serverless-http');
+
+//delete if no work
+const app = express();
+
+//till here
 
 router.get('/user/:id',requireLogin,(req,res)=>{
     User.findOne({_id:req.params.id})
@@ -75,4 +81,7 @@ router.put('/follow', requireLogin, async (req, res) => {
     console.log(err)
   })
  })
-module.exports= router
+
+ app.use('/.netlify/functions/api',router);
+
+module.exports.handler = serverless(app);
